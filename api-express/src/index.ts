@@ -16,6 +16,7 @@ import {
 
 const app: Express = express()
 
+// Set up express server
 app.use(express.json())
 app.use(express.urlencoded({
     extended: false
@@ -24,7 +25,6 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, '../public')))
 
 // Import routes
-
 import indexRouter from './routes/index'
 
 app.use('/', indexRouter)
@@ -49,11 +49,12 @@ const handleError: ErrorRequestHandler = (err, req: Request, res: Response, next
 
 app.use(handleError)
 
+// Start server
 const server = http.createServer(app)
-const port = normalizePort(process.env.PORT || "3000")
-
+const port = normalizePort(process.env.API_PORT || process.env.PORT || "3000")
 server.listen(port)
 
+// Add server listeners
 server.on('error', createServerErrorHandler(port))
 server.on('listening', () => {
     var addr = server.address();
