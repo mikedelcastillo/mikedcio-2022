@@ -1,39 +1,38 @@
-export const createServerErrorHandler = (port: string | number | boolean) => (error: NodeJS.ErrnoException) => {
-    if (error.syscall !== 'listen') {
-        throw error;
-    }
+export const createServerErrorHandler =
+    (port: string | number | boolean) => (error: NodeJS.ErrnoException) => {
+        if (error.syscall !== "listen") {
+            throw error
+        }
 
-    var bind = typeof port === 'string' ?
-        'Pipe ' + port :
-        'Port ' + port;
+        const bind = typeof port === "string" ?
+            "Pipe " + port :
+            "Port " + port
 
-    // handle specific listen errors with friendly messages
-    switch (error.code) {
-        case 'EACCES':
-            console.error(bind + ' requires elevated privileges');
-            process.exit(1);
-            break;
-        case 'EADDRINUSE':
-            console.error(bind + ' is already in use');
-            process.exit(1);
-            break;
+        // handle specific listen errors with friendly messages
+        switch (error.code) {
+        case "EACCES":
+            console.error(bind + " requires elevated privileges")
+            process.exit(1)
+        case "EADDRINUSE":
+            console.error(bind + " is already in use")
+            process.exit(1)
         default:
-            throw error;
+            throw error
+        }
     }
-}
 
 export const normalizePort = (val: string) => {
-    var port = parseInt(val, 10);
+    const port = parseInt(val, 10)
 
     if (isNaN(port)) {
-        // named pipe
-        return val;
+    // named pipe
+        return val
     }
 
     if (port >= 0) {
-        // port number
-        return port;
+    // port number
+        return port
     }
 
-    return false;
+    return false
 }

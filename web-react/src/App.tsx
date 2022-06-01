@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {FC} from "react"
 
-function App() {
-  return (
-    <div className="App">
-      { JSON.stringify(process.env) }
-    </div>
-  );
+const App: FC = () => {
+    return (
+        <div className="App">
+            { JSON.stringify(process.env) }
+        </div>
+    )
 }
 
-export default App;
+export default App

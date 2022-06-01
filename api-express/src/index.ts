@@ -1,33 +1,33 @@
-import http from 'http'
+import http from "http"
 import express, {
     Express,
     Request,
     Response,
     NextFunction,
-    ErrorRequestHandler
-} from 'express'
-import cookieParser from 'cookie-parser'
-import createError from 'http-errors'
-import path from 'path'
+    ErrorRequestHandler,
+} from "express"
+import cookieParser from "cookie-parser"
+import createError from "http-errors"
+import path from "path"
 import {
     createServerErrorHandler,
-    normalizePort
-} from './utils/server'
+    normalizePort,
+} from "./utils/server"
 
 const app: Express = express()
 
 // Set up express server
 app.use(express.json())
 app.use(express.urlencoded({
-    extended: false
+    extended: false,
 }))
 app.use(cookieParser())
-app.use(express.static(path.join(__dirname, '../public')))
+app.use(express.static(path.join(__dirname, "../public")))
 
 // Import routes
-import indexRouter from './routes/index'
+import indexRouter from "./routes/index"
 
-app.use('/', indexRouter)
+app.use("/", indexRouter)
 
 // Catch 404
 app.use((req: Request, res: Response, next: NextFunction) => {
@@ -37,13 +37,13 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 // Error handler
 const handleError: ErrorRequestHandler = (err, req: Request, res: Response, next: NextFunction) => {
     // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
+    res.locals.message = err.message
+    res.locals.error = req.app.get("env") === "development" ? err : {}
 
     // render the error page
-    res.status(err.status || 500);
+    res.status(err.status || 500)
     res.json({
-        ok: false
+        ok: false,
     })
 }
 
@@ -55,11 +55,11 @@ const port = normalizePort(process.env.API_PORT || process.env.PORT || "3000")
 server.listen(port)
 
 // Add server listeners
-server.on('error', createServerErrorHandler(port))
-server.on('listening', () => {
-    var addr = server.address();
-    var bind = typeof addr === 'string' ?
-        'pipe ' + addr :
-        'port ' + addr.port;
-    console.log('Listening on ' + bind);
+server.on("error", createServerErrorHandler(port))
+server.on("listening", () => {
+    const addr = server.address()
+    const bind = typeof addr === "string" ?
+        "pipe " + addr :
+        "port " + addr.port
+    console.log("Listening on " + bind)
 })
