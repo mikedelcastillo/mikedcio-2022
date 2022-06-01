@@ -1,0 +1,21 @@
+{
+  "name": "mikedcio-2022",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "git+https://github.com/mikedelcastillo/mikedcio-2022.git",
+  "author": "Mike del Castillo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mikedelcastillo/mikedcio-2022/issues"
+  },
+  "homepage": "https://github.com/mikedelcastillo/mikedcio-2022#readme",
+  "private": true,
+  "workspaces": [
+    "api-express",
+    "web-react"
+  ]
+}
