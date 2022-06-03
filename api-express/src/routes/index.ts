@@ -1,16 +1,27 @@
+import { prisma } from "../prisma"
+import { asyncHandler } from "../utils/server"
+
 import {
     Router as createRouter,
     Request,
     Response,
-    NextFunction,
 } from "express"
 
 const router = createRouter()
 
-router.get("/", (req: Request, res: Response, next: NextFunction) => {
+router.get("/", (req: Request, res: Response) => {
     res.json({
         ok: true,
     })
 })
+
+router.get("/async", asyncHandler(async (req: Request, res: Response) => {
+    const users = await prisma.user.findMany()
+    res.json({
+        ok: true,
+        users,
+    })
+}))
+
 
 export default router

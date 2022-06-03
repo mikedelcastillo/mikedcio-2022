@@ -1,0 +1,66 @@
+datasource db {
+  url      = env("PRISMA_URL")
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id    String @id
+  email String @unique
+  name  String @unique
+
+  disabled Boolean @default(false)
+}
+
+model LoginRequest {
+  id    Int    @id @default(autoincrement())
+  email String
+
+  code           String
+  codeExpiryDate DateTime
+
+  ip        String?
+  userAgent String?
+
+  success     Boolean   @default(false)
+  successDate DateTime?
+  requestDate DateTime  @default(now())
+
+  loginExpiryDate DateTime
+}
+
+model Logo {
+  id    String  @id
+  alt   String
+  url   String
+  scale Decimal @default(1)
+
+  Project Project[]
+  Client  Client[]
+}
+
+model Project {
+  id String @id
+
+  name String
+
+  content String @db.Text
+
+  clients Client[]
+
+  logoId String?
+  logo   Logo?   @relation(fields: [logoId], references: [id])
+}
+
+model Client {
+  id   String @id
+  name String
+
+  logoId String?
+  logo   Logo?   @relation(fields: [logoId], references: [id])
+
+  projects Project[]
+}

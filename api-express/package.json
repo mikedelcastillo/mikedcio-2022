@@ -1,19 +1,26 @@
 {
   "name": "api-express",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/index.js",
   "author": "Mike del Castillo",
   "license": "MIT",
   "scripts": {
     "env": "env-cmd -f ../.env --silent",
-    "start": "npm run env -- concurrently --kill-others \"tsc -w\" \"nodemon dist/index.js\""
+    "start": "npm run env -- concurrently --kill-others \"tsc -w\" \"nodemon dist/index.js\"",
+    "prisma": "npm run env -- prisma",
+    "prisma:format": "npm run prisma -- format",
+    "prisma:generate": "npm run prisma -- generate",
+    "prisma:push": "npm run prisma -- db push",
+    "prisma:studio": "npm run prisma -- studio"
   },
   "dependencies": {
+    "@prisma/client": "^3.14.0",
     "@types/http-errors": "^1.8.2",
     "cookie-parser": "^1.4.6",
     "env-cmd": "^10.1.0",
     "express": "^4.18.1",
-    "http-errors": "^2.0.0"
+    "http-errors": "^2.0.0",
+    "prisma": "^3.14.0"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.3",

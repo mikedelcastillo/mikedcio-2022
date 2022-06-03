@@ -16,6 +16,10 @@
   "private": true,
   "workspaces": [
     "api-express",
-    "web-react"
-  ]
+    "web-react",
+    "web-next"
+  ],
+  "resolutions": {
+    ".prisma": "link:node-modules/.prisma"
+  }
 }

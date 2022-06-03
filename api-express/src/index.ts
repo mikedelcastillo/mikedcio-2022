@@ -44,6 +44,9 @@ const handleError: ErrorRequestHandler = (err, req: Request, res: Response, next
     res.status(err.status || 500)
     res.json({
         ok: false,
+        ...(process.env.NODE_ENV === "production" ? {} : {
+            error: err.message,
+        })
     })
 }
 
