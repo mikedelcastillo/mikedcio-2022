@@ -1,10 +1,17 @@
 import React, {FC} from "react"
+import {BrowserRouter, Routes, Route} from "react-router-dom"
 
 const App: FC = () => {
     return (
-        <div className="App">
-            { JSON.stringify(process.env) }
-        </div>
+        <>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/">
+                        <Route index element={<>hi</>}/>
+                    </Route>
+                </Routes>
+            </BrowserRouter>
+        </>
     )
 }
 
