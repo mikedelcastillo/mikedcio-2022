@@ -3,7 +3,7 @@ import React, {
     MouseEventHandler, ReactNode,
 } from "react"
 import Link from "next/link"
-import inputStyles from "../styles/Inputs.module.sass"
+import inputStyles from "../styles/components/Inputs.module.sass"
 import { Url } from "url"
 
 type Props = {

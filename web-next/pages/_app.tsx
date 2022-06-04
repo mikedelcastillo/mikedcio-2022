@@ -1,7 +1,6 @@
-import "../styles/globals.css"
+import "../styles/globals.sass"
 import type { AppProps } from "next/app"
 import { AppLayout, NextPageWithLayout } from "../layouts/index"
-import { createElement } from "react"
 
 function MyApp({ Component, pageProps }: AppProps) {
 
