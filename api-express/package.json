@@ -11,7 +11,8 @@
     "prisma:format": "npm run prisma -- format",
     "prisma:generate": "npm run prisma -- generate",
     "prisma:push": "npm run prisma -- db push",
-    "prisma:studio": "npm run prisma -- studio"
+    "prisma:studio": "npm run prisma -- studio",
+    "build": "npm run env -- tsc && npm run prisma:generate"
   },
   "dependencies": {
     "@prisma/client": "^3.14.0",

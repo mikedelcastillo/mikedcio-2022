@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "concurrently 'yarn workspace api-express build' 'yarn workspace web-react build' 'yarn workspace web-next build'",
+    "clean": "rm -rfv node_modules */node_modules */dist */out */.next"
   },
   "repository": "git+https://github.com/mikedelcastillo/mikedcio-2022.git",
   "author": "Mike del Castillo",
@@ -21,5 +22,8 @@
   ],
   "resolutions": {
     ".prisma": "link:node-modules/.prisma"
+  },
+  "devDependencies": {
+    "concurrently": "^7.2.1"
   }
 }
