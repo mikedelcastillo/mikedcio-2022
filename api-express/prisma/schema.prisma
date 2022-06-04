@@ -13,11 +13,15 @@ model User {
   name  String @unique
 
   disabled Boolean @default(false)
+
+  loginRequests LoginRequest[]
 }
 
 model LoginRequest {
-  id    Int    @id @default(autoincrement())
-  email String
+  id Int @id @default(autoincrement())
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
 
   code           String
   codeExpiryDate DateTime

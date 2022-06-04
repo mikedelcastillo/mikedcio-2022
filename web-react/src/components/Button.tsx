@@ -18,7 +18,8 @@ const Button: FC<Props> = (props) => {
     let tag: string|ForwardRefExoticComponent<any> = "button"
 
     const elementProps: Props = {
-        className: ["app-button", props.className].filter((c) => c).join(" "),
+        className: ["app-button", props.className]
+            .filter((c) => c).join(" "),
         onClick: props.onClick,
     }
 
