@@ -8,8 +8,8 @@ For most of my career, I've mainly used Hapi and Vue. This monorepo captures my 
 
 ```sh
 npm install -g yarn
-npm run clean
-yarn install
+yarn clean
+yarn
 ```
 
 ## Build
