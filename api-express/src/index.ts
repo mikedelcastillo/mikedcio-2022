@@ -26,8 +26,10 @@ app.use(express.static(path.join(__dirname, "../public")))
 
 // Import routes
 import indexRouter from "./routes/index"
+import adminRouter from "./routes/admin"
 
 app.use("/", indexRouter)
+app.use("/api/admin", adminRouter)
 
 // Catch 404
 app.use((req: Request, res: Response, next: NextFunction) => {
@@ -48,6 +50,8 @@ const handleError: ErrorRequestHandler = (err, req: Request, res: Response, next
             error: err.message,
         })
     })
+
+    console.warn(err)
 }
 
 app.use(handleError)

@@ -1,14 +1,36 @@
 import {
     NextFunction,
     Request,
+    RequestHandler,
     Response,
 } from "express"
+import { ValidationChain, ValidationError } from "express-validator"
+import { ResultWithContext } from "express-validator/src/chain"
+import createHttpError from "http-errors"
 
 type AsyncHandler = (req: Request, res: Response, next: NextFunction) => Promise<void>
 
 export const asyncHandler = (handler: AsyncHandler) => 
     (req: Request, res: Response, next: NextFunction) => 
         handler(req, res, next).catch(next)
+
+export const validateMiddleware = (validations: ValidationChain[]):RequestHandler => {
+    return asyncHandler(async (req, res, next) => {
+        let errors: ValidationError[] = []
+        for(const validation of validations){
+            const results: ResultWithContext = await validation.run(req)
+            if(results.context.errors.length){
+                errors = errors.concat(results.context.errors)
+            }
+        }
+        if(errors.length){
+            const message = Array.from(new Set(errors.map(error => `${error.location}:${error.param} = ${error.value} (${error.msg})`))).join("; ")
+            next(createHttpError(422, message))
+        } else{
+            next()
+        }
+    })
+}
 
 export const createServerErrorHandler =
     (port: string | number | boolean) => (error: NodeJS.ErrnoException) => {

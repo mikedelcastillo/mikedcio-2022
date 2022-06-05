@@ -8,9 +8,10 @@ generator client {
 }
 
 model User {
-  id    String @id
-  email String @unique
-  name  String @unique
+  id         String @id
+  email      String @unique
+  name       String @unique
+  telegramId String @unique
 
   disabled Boolean @default(false)
 
@@ -18,7 +19,7 @@ model User {
 }
 
 model LoginRequest {
-  id Int @id @default(autoincrement())
+  id String @id
 
   user   User   @relation(fields: [userId], references: [id])
   userId String
@@ -29,6 +30,7 @@ model LoginRequest {
   ip        String?
   userAgent String?
 
+  valid       Boolean   @default(true)
   success     Boolean   @default(false)
   successDate DateTime?
   requestDate DateTime  @default(now())
