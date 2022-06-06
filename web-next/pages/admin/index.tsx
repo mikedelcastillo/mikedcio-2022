@@ -1,16 +1,21 @@
 import type {NextPage} from "next"
+import { useSelector } from "react-redux"
+import Button from "../../components/Button"
 import { NextPageWithLayout } from "../../layouts"
 import AdminLayout from "../../layouts/Admin"
-import { useAtom } from "jotai"
-import { userAtom, isLoggedInAtom } from "../../stores/auth"
+import { AuthState, authStore, authActions } from "../../stores/auth"
 
 const Admin: NextPage & NextPageWithLayout = () => {
-    const [user] = useAtom(userAtom)
-    const [isLoggedIn] = useAtom(isLoggedInAtom)
-    
+    const loading = useSelector((state: AuthState) => state.loading)
+
+    const toggle = () => {
+        console.log("testing", loading, authStore.getState())
+        authStore.dispatch(authActions.setLoading(!loading))
+    }
     return (
         <>
-            <pre>{JSON.stringify({isLoggedIn, user})}</pre>
+            <pre>{JSON.stringify({loading})}</pre>
+            <Button onClick={toggle}>toggle</Button>
         </>
     )
 }

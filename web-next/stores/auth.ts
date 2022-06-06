@@ -1,14 +1,31 @@
 import type { User } from "@prisma/client"
 
-import { atom, Atom } from "jotai"
-import { atomPersist } from "./index"
+import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit"
 
-export const authLoadingAtom = atom(false)
-export const userAtom:Atom<User|null> = atom(null)
-export const isLoggedInAtom = atom((get) => get(userAtom) !== null)
-export const tokenAtom:Atom<string|null> = atomPersist("token", null)
+export type AuthState = {
+    loading: boolean,
+    firstCheck: boolean,
+    user: null|User,
+}
 
+export const authSlice = createSlice({
+    name: "auth",
+    initialState: {
+        loading: false,
+        firstCheck: false,
+        user: null,
+    } as AuthState,
+    reducers: {
+        setLoading: (state: AuthState, value: PayloadAction<boolean>) => {
+            state.loading = value.payload
+        }
+    },
+})
 
+export const authActions = authSlice.actions
 
+export const authStore = configureStore({
+    reducer: authSlice.reducer,
+})
 
-
+authStore.subscribe(() => console.log(authStore.getState()))
