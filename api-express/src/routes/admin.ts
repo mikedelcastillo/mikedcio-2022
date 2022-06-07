@@ -51,7 +51,7 @@ const authMiddleware: RequestHandler = asyncHandler(async (req, res, next) => {
         
         next()
     } else{
-        return next(createError(401, "Token missing"))
+        return next(createError(404, "Token missing"))
     }
 })
 
@@ -77,6 +77,11 @@ router.post("/request", validateMiddleware([
         },
     })
 
+    if(user === null){
+        next(createError(404, "User not found"))
+        return
+    }
+
     // Find if has login request recently
     const lastLoginRequest = await prisma.loginRequest.findFirst({
         where: {
@@ -92,7 +97,7 @@ router.post("/request", validateMiddleware([
         },
     })
     if(lastLoginRequest){
-        next(createError(400, "Login request too frequent"))
+        next(createError(429, "Login request too frequent"))
         return
     }
 

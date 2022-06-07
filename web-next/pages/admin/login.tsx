@@ -4,26 +4,47 @@ import InputText, { useStateWithValidation } from "../../components/InputText"
 import { NextPageWithLayout } from "../../layouts"
 import AdminLayout from "../../layouts/Admin"
 import * as yup from "yup"
+import { useRouter } from "next/router"
+import Button from "../../components/Button"
+import api, { getAxiosErrorMessage } from "../../services/axios"
 
 const Login: NextPage & NextPageWithLayout = () => {
+    const router = useRouter() 
+
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState<null|string>(null)
+    const [token, setToken] = useState<null|string>(null)
     const [email, setEmail, emailError] = useStateWithValidation("", yup.string().email().required())
-    const [number, setNumber, numberError] = useStateWithValidation("5", yup.number().lessThan(5))
+  
+    const request = () => {
+        if([emailError].some(bool => bool)){
+            // There is an error
+        } else{
+            setLoading(true)
+            setError(null)
+            api.post("/admin/request", { email })
+                .then(({ data }) => {
+                    setToken(data.token)
+                })
+                .catch((err) => {
+                    setError(getAxiosErrorMessage(err))
+                })
+                .finally(() => {
+                    setLoading(false)
+                })
+        }
+    }
 
     return (
         <>
-                
-                data: { JSON.stringify({ email, number, emailError, numberError }) }
-           
             <InputText 
                 get={email} 
                 set={setEmail}
                 error={emailError}/>
-                
-            <InputText 
-                type="range"
-                get={number} 
-                set={setNumber}
-                error={numberError}/>
+
+            <Button onClick={request}>Request</Button>
+
+            <pre>Error: {error}</pre>
         </>
     )
 }

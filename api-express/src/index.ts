@@ -45,12 +45,16 @@ const handleError: ErrorRequestHandler = (err, req: Request, res: Response, next
     res.locals.error = req.app.get("env") === "development" ? err : {}
 
     // render the error page
-    res.status(err.status || 500)
+    const status = err.status || 500
+    let message = err.message
+    if(process.env.NODE_ENV !== "production" && status >= 500){
+        message = "Something went wrong"
+    }
+
+    res.status(status)
     res.json({
         ok: false,
-        ...(process.env.NODE_ENV === "production" ? {} : {
-            error: err.message,
-        })
+        message,
     })
 
     console.warn(err)

@@ -1,5 +1,15 @@
-import axios from "axios"
+import axios, {AxiosError} from "axios"
 import { API_URL, TOKEN_KEY } from "./env"
+
+export const getAxiosErrorMessage = (err: Error) => {
+    let message = err.message
+    if(axios.isAxiosError(err)){
+        const axiosError = err as AxiosError
+        const data = axiosError.response?.data as { message: string }
+        message = data.message ?? message
+    }
+    return message
+}
 
 const api = axios.create({
     baseURL: API_URL,
