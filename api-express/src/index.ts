@@ -9,6 +9,7 @@ import express, {
 import cookieParser from "cookie-parser"
 import createError from "http-errors"
 import path from "path"
+import cors from "cors"
 import {
     createServerErrorHandler,
     normalizePort,
@@ -17,6 +18,7 @@ import {
 const app: Express = express()
 
 // Set up express server
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({
     extended: false,

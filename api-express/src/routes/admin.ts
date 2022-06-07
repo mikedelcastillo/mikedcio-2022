@@ -55,7 +55,7 @@ const authMiddleware: RequestHandler = asyncHandler(async (req, res, next) => {
     }
 })
 
-router.get("/validate", authMiddleware, (req: Request, res: Response) => {
+router.get("/verify", authMiddleware, (req: Request, res: Response) => {
     const user = res.locals.user
 
     res.json({
