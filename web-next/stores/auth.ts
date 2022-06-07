@@ -66,7 +66,6 @@ export const verifyToken = async () => {
         store.dispatch(authActions.setFirstCheck(true))
     } catch(err){
         if(axios.isAxiosError(err)){
-            console.log(err)
             store.dispatch(authActions.setError(`${err.code}: ${err.message}`))
             if(err.response?.status === 401){
                 store.dispatch(authActions.setFirstCheck(true))

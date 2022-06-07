@@ -7,7 +7,6 @@ import inputStyles from "../styles/components/Inputs.module.sass"
 import { Url } from "url"
 
 type Props = {
-    test?: string,
     className?: string,
     children?: ReactNode,
     href?: string,
