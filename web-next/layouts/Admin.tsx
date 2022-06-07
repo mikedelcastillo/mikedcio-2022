@@ -1,5 +1,5 @@
 import Head from "next/head"
-import { FC, ReactNode, useEffect } from "react"
+import { FC, ReactNode, useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import adminStyles from "../styles/layouts/Admin.module.sass"
 import layoutStyles from "../styles/layouts/Layout.module.sass"
@@ -23,32 +23,43 @@ const AdminLayout: FC<Props> = ({
     const loading = useSelector((state: State) => state.auth.loading)
     const user = useSelector((state: State) => state.auth.user)
 
+    const [ready, setReady] = useState(false)
+
     useEffect(() => {
-        const loginPage = "/admin/login"
-        const adminPage = "/admin"
-        if(firstCheck === false && loading === false){
-            verifyToken().then(() => {
-                console.log(user, requireLoggedIn, requireNotLoggedIn)
-                if(user === null){
-                    // User not logged in
-                    if(requireLoggedIn){
-                        router.push(loginPage)
-                        console.log("go to login page!")
-                    } else if(requireNotLoggedIn){
-                        // In the right page
-                    }
-                } else{
-                    // User logged in
-                    if(requireLoggedIn){
-                        // In the right page
-                    } else if(requireNotLoggedIn){
-                        router.push(adminPage)
-                        console.log("go to admin!")
-                    }
-                }
-            })
+        const loginPage = {
+            pathname: "/admin/login",
+            query: {
+                to: router.asPath,
+            },
         }
-    }, [])
+        const adminPage = "/admin"
+
+        const guard = () => {
+            if(user === null){
+                // User not logged in
+                if(requireLoggedIn){
+                    router.push(loginPage)
+                } else if(requireNotLoggedIn){
+                    // In the right page
+                    setReady(true)
+                }
+            } else{
+                // User logged in
+                if(requireLoggedIn){
+                    // In the right page
+                    setReady(true)
+                } else if(requireNotLoggedIn){
+                    router.push(adminPage)
+                }
+            }
+        }
+
+        if(firstCheck === false && loading === false){
+            verifyToken().then(guard)
+        } else if(firstCheck === true && loading === false){
+            guard()
+        }
+    }, [router.asPath])
 
     return (
         <>
@@ -56,7 +67,11 @@ const AdminLayout: FC<Props> = ({
                 <pre>
                     {JSON.stringify(store.getState(), null, 2)}
                 </pre>
-                {children}
+                {ready ? children : (
+                    <>
+                        not ready...
+                    </>
+                )}
             </div>
         </>
     )
